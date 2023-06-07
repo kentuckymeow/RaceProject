@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +29,7 @@ class MainViewController: UIViewController {
         startButton.setTitleColor(.black, for: .normal)
         startButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 23)
         startButton.layer.cornerRadius = 23
+        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
         startButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(startButton)
         
@@ -72,7 +73,7 @@ class MainViewController: UIViewController {
             
             bestScore.centerXAnchor.constraint(equalTo: bestScoreRect.centerXAnchor),
             bestScore.centerYAnchor.constraint(equalTo: bestScoreRect.centerYAnchor),
-//
+
             bestScoreRect.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             bestScoreRect.widthAnchor.constraint(equalToConstant: 165),
             bestScoreRect.heightAnchor.constraint(equalToConstant: 49),
@@ -82,12 +83,13 @@ class MainViewController: UIViewController {
             startButton.widthAnchor.constraint(equalToConstant: 306),
             startButton.heightAnchor.constraint(equalToConstant: 60),
             startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: view.bounds.height * -0.156)
-            
         ])
-        
-        
-        
-        
+    }
+    
+    @objc func startButtonTapped() {
+        let navigationController = UINavigationController(rootViewController: GameViewController())
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
 }
 
