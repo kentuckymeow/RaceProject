@@ -29,7 +29,7 @@ class GameViewController: UIViewController {
         let xOffset = (view.frame.width - CGFloat(stripeCount) * stripeWidth - CGFloat(stripeCount - 1) * stripeSpacing) / 2.0
         yOffset = (view.frame.height - totalHeight) / 2.0
 
-        for row in 0..<(rowCount + 2) {
+        for row in 0..<(rowCount) {
             let y = yOffset + CGFloat(row) * (stripeHeight + rowSpacing)
             for i in 0..<stripeCount {
                 let x = xOffset + CGFloat(i) * (stripeWidth + stripeSpacing)
