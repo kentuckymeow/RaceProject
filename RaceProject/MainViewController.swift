@@ -10,7 +10,6 @@ import UIKit
 class MainViewController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let backgroundImage = UIImage(named: "background")
         let backgroundImageView = UIImageView(image: backgroundImage)
         backgroundImageView.contentMode = .scaleAspectFill
