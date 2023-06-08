@@ -11,7 +11,7 @@ class GameViewController: UIViewController {
     var stripes: [UIView] = []
     var stripeHeight: CGFloat = 101.0
     var yOffset: CGFloat = 0.0
-    private let carImageView = UIImageView()
+    let carImageView = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +58,7 @@ class GameViewController: UIViewController {
         })
     }
     
-    private func setupCarImageView() {
+    func setupCarImageView() {
         carImageView.image = UIImage(named: "car")
         carImageView.contentMode = .scaleAspectFit
         carImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +72,7 @@ class GameViewController: UIViewController {
         ])
     }
     
-    private func setupArrowButtons() {
+    func setupArrowButtons() {
         let leftArrowButton = UIButton(type: .system)
         leftArrowButton.setImage(UIImage(named: "arrowLeft"), for: .normal)
         leftArrowButton.tintColor = .black
@@ -100,15 +100,15 @@ class GameViewController: UIViewController {
         ])
     }
     
-    @objc private func leftArrowButtonTapped() {
+    @objc func leftArrowButtonTapped() {
         moveCarHorizontally(direction: .left)
     }
     
-    @objc private func rightArrowButtonTapped() {
+    @objc func rightArrowButtonTapped() {
         moveCarHorizontally(direction: .right)
     }
     
-    private func moveCarHorizontally(direction: Direction) {
+    func moveCarHorizontally(direction: Direction) {
         let screenWidth = view.bounds.width
         let carWidth = carImageView.bounds.width
         let barrierWidth: CGFloat = 75
