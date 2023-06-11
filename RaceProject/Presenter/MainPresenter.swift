@@ -24,9 +24,9 @@ class MainPresenter: UINavigationController {
     }
     
     @objc func startButtonTapped() {
-       let navigationController = UINavigationController(rootViewController: GameViewController())
+        let navigationController = UINavigationController(rootViewController: GameViewController())
         navigationController.modalPresentationStyle = .fullScreen
-      present(navigationController, animated: true)
+        present(navigationController,animated: true)
     }
 }
 

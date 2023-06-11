@@ -11,13 +11,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.rootViewController = MainPresenter()
         window?.makeKeyAndVisible()
+        
+        let userDefaultsManager = UserDefaultsManager.shared
+        userDefaultsManager.setValue("Arseni", forKey: "username")
+        
+        if let username = userDefaultsManager.getValue(forKey: "username") as? String {
+            print ("Username: \(username)")
+        } else {
+            print("Username not found ")
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
