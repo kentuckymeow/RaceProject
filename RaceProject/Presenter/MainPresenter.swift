@@ -7,26 +7,18 @@
 
 import UIKit
 
-class MainPresenter: UINavigationController {
+class MainPresenter: MainPresenterProtocol {
+   
+    weak var viewController: UIViewController?
     
-    lazy var mainView: MainView = {
-        return MainView()
-    }()
-    
-    override func loadView() {
-       super.loadView()
-        view = mainView
+    init(viewController: UIViewController) {
+        self.viewController = viewController
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        mainView.startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc func startButtonTapped() {
+    func startButtonTapped() {
         let navigationController = UINavigationController(rootViewController: GameViewController())
         navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController,animated: true)
+        viewController?.present(navigationController,animated: true)
     }
 }
 
