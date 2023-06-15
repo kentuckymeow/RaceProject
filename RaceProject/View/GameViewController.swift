@@ -13,40 +13,47 @@ class GameViewController: UIViewController {
         return GameView()
     }()
     
+    lazy var presenter: GamePresenter = {
+        return GamePresenter(gameView: gameView)
+    }()
+    
     var musicManager: MusicManager = {
         return MusicManager()
     }()
     
     override func loadView() {
         super.loadView()
-        view = gameView
-        musicManager.play()
+        view = gameView 
+        //musicManager.play()
     }
     
-    override func loadViewIfNeeded() {
-        super.loadViewIfNeeded()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         animateStripeDrop()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        gameView.leftArrowButton.addTarget(self, action: #selector(leftArrowButtonTapped), for: .touchUpInside)
+        gameView.rightArrowButton.addTarget(self, action: #selector(rightArrowButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc  func leftArrowButtonTapped() {
+        presenter.leftArrowButtonTapped()
+    }
+
+    @objc  func rightArrowButtonTapped() {
+        presenter.rightArrowButtonTapped()
+    }
+
     func animateStripeDrop() {
-        let screenHeight = gameView.screenHeight * 2
+        let screenHeight = gameView.screenHeight
         let stripeHeight = gameView.stripeHeight
-        let verticalSpacing = gameView.verticalSpacing
-        let totalAnimationDuration = Double(screenHeight / stripeHeight) * 0.5
-
-        for verticalStackView in gameView.horizontalStackView.arrangedSubviews {
-            guard let stackView = verticalStackView as? UIStackView else { continue }
-
-            for (index, stripeView) in stackView.arrangedSubviews.enumerated() {
-                let initialPosition = CGPoint(x: stripeView.frame.origin.x, y: gameView.horizontalStackView.frame.origin.y + CGFloat(index) * (stripeHeight + verticalSpacing) - stripeHeight)
-                let finalPosition = CGPoint(x: stripeView.frame.origin.x, y: screenHeight + CGFloat(index) * (stripeHeight + verticalSpacing) - stripeHeight)
-
-                stripeView.frame.origin = initialPosition
-
-                UIView.animate(withDuration: totalAnimationDuration, delay: Double(index) * 0.1, options: [.curveLinear, .repeat], animations: {
-                    stripeView.frame.origin = finalPosition
-                }, completion: nil)
-            }
-        }
+        let verticalSpacing = gameView.verticalSpacing * 0.5
+        let totalAnimationDuration = Double(screenHeight / stripeHeight) * 0.05
+        
+        UIView.animate(withDuration: totalAnimationDuration, delay: 0, options: [.curveLinear, . repeat], animations: {
+            self.gameView.horizontalStackView.frame.origin = CGPoint(x: self.gameView.sidePadding, y: verticalSpacing)
+        }, completion: nil)
     }
 }

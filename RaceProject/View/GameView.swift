@@ -9,14 +9,14 @@ import UIKit
 
 final class GameView: UIView {
     
-    private let screenWidth = UIScreen.main.bounds.width
+    let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
     
     private var stripeWidth: CGFloat { screenWidth * 0.03 }
-    var stripeHeight: CGFloat { screenHeight * 0.10 }
-    private var horizontalSpacing: CGFloat { screenWidth * 0.25 }
+    var stripeHeight: CGFloat { screenHeight * 0.03 }
+    var horizontalSpacing: CGFloat { screenWidth * 0.25 }
     var verticalSpacing: CGFloat { screenHeight * 0.05 }
-    private var sidePadding: CGFloat { screenWidth * 0.05 }
+    var sidePadding: CGFloat { screenWidth * 0.05 }
     
      lazy var horizontalStackView: UIStackView = {
         var horizontalStackView = UIStackView()
@@ -24,11 +24,11 @@ final class GameView: UIView {
         horizontalStackView.distribution = .fillEqually
         horizontalStackView.spacing = horizontalSpacing
         let stackViewWidth = screenWidth - 2 * sidePadding
-        horizontalStackView.frame = CGRect(x: sidePadding, y: 0, width: stackViewWidth, height: screenHeight)
+        horizontalStackView.frame = CGRect(x: sidePadding, y: -screenHeight, width: stackViewWidth, height: screenHeight * 2)
         return horizontalStackView
     }()
     
-    private var carImageView: UIImageView = {
+    var carImageView: UIImageView = {
         let carImage = UIImage(named: "car")
         let carImageView = UIImageView(image: carImage)
         carImageView.contentMode = .scaleAspectFill
@@ -71,6 +71,8 @@ final class GameView: UIView {
         
         [horizontalStackView, carImageView ,leftArrowButton, rightArrowButton].forEach {addSubview($0)}
         [carImageView ,leftArrowButton, rightArrowButton].forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
+        
+        bringSubviewToFront(carImageView)
         
         for _ in 0..<4 {
             let verticalStackView = createVerticalStackView(numberOfRows: numberOfRows)

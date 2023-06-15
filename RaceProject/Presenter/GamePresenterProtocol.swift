@@ -7,3 +7,8 @@
 
 import Foundation
 
+protocol GamePresenterProtocol {
+    func leftArrowButtonTapped() 
+    func rightArrowButtonTapped()
+}
+
