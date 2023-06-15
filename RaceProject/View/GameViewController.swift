@@ -20,7 +20,7 @@ class GameViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view = gameView
-       musicManager.play()
+        musicManager.play()
     }
     
     override func loadViewIfNeeded() {
