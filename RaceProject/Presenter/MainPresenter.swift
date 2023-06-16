@@ -21,4 +21,3 @@ class MainPresenter: MainPresenterProtocol {
         viewController?.present(navigationController,animated: true)
     }
 }
-

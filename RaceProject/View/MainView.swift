@@ -34,20 +34,20 @@ final class MainView: UIView {
         return startButton
     }()
 
-    private lazy var scoreRect: UIView = {
+    private lazy var scoreView: UIView = {
         let scoreRect = UIView()
         scoreRect.backgroundColor = UIColor(red: 0.792, green: 0.181, blue: 0.181, alpha: 1)
         return scoreRect
     }()
 
-    private lazy var bestScoreRect: UIView = {
+    private lazy var bestScoreView: UIView = {
         let bestScoreRect = UIView()
         bestScoreRect.backgroundColor = UIColor(red: 0.792, green: 0.181, blue: 0.181, alpha: 1)
         return bestScoreRect
     }()
 
-    private lazy var score: UILabel = {
-        let score = UILabel(frame: scoreRect.bounds)
+    private lazy var scoreLabel: UILabel = {
+        let score = UILabel(frame: scoreView.bounds)
         score.text = "0"
         score.textAlignment = .center
         score.textColor = .white
@@ -55,8 +55,8 @@ final class MainView: UIView {
         return score
     }()
 
-    private lazy var bestScore: UILabel = {
-        let bestScore = UILabel(frame: bestScoreRect.bounds)
+    private lazy var bestScoreLabel: UILabel = {
+        let bestScore = UILabel(frame: bestScoreView.bounds)
         bestScore.text = "Best Score"
         bestScore.textAlignment = .center
         bestScore.textColor = .white
@@ -80,12 +80,12 @@ final class MainView: UIView {
     }
     
     private func setUpViews() {
-        [backgroundImageView,logoImageView, startButton, scoreRect, bestScoreRect, score, bestScore].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        [backgroundImageView,logoImageView, startButton, scoreView, bestScoreView, scoreLabel, bestScoreLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
-        [backgroundImageView, logoImageView, startButton, scoreRect, bestScoreRect].forEach { addSubview($0)}
+        [backgroundImageView, logoImageView, startButton, scoreView, bestScoreView].forEach { addSubview($0)}
         
-        scoreRect.addSubview(score)
-        bestScoreRect.addSubview(bestScore)
+        scoreView.addSubview(scoreLabel)
+        bestScoreView.addSubview(bestScoreLabel)
     }
     
     private func setUpConstraints() {
@@ -98,21 +98,21 @@ final class MainView: UIView {
             logoImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             logoImageView.topAnchor.constraint(equalTo: topAnchor, constant: UIScreen.main.bounds.height * 0.093),
             
-            scoreRect.centerXAnchor.constraint(equalTo: centerXAnchor),
-            scoreRect.widthAnchor.constraint(equalToConstant: 92),
-            scoreRect.heightAnchor.constraint(equalToConstant: 66),
-            scoreRect.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: UIScreen.main.bounds.height * 0.077),
+            scoreView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            scoreView.widthAnchor.constraint(equalToConstant: 92),
+            scoreView.heightAnchor.constraint(equalToConstant: 66),
+            scoreView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: UIScreen.main.bounds.height * 0.077),
             
-            score.centerXAnchor.constraint(equalTo: scoreRect.centerXAnchor),
-            score.centerYAnchor.constraint(equalTo: scoreRect.centerYAnchor),
+            scoreLabel.centerXAnchor.constraint(equalTo: scoreView.centerXAnchor),
+            scoreLabel.centerYAnchor.constraint(equalTo: scoreView.centerYAnchor),
             
-            bestScore.centerXAnchor.constraint(equalTo: bestScoreRect.centerXAnchor),
-            bestScore.centerYAnchor.constraint(equalTo: bestScoreRect.centerYAnchor),
+            bestScoreLabel.centerXAnchor.constraint(equalTo: bestScoreView.centerXAnchor),
+            bestScoreLabel.centerYAnchor.constraint(equalTo: bestScoreView.centerYAnchor),
             
-            bestScoreRect.centerXAnchor.constraint(equalTo: centerXAnchor),
-            bestScoreRect.widthAnchor.constraint(equalToConstant: 165),
-            bestScoreRect.heightAnchor.constraint(equalToConstant: 49),
-            bestScoreRect.topAnchor.constraint(equalTo: scoreRect.bottomAnchor, constant: UIScreen.main.bounds.height * 0.012),
+            bestScoreView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            bestScoreView.widthAnchor.constraint(equalToConstant: 165),
+            bestScoreView.heightAnchor.constraint(equalToConstant: 49),
+            bestScoreView.topAnchor.constraint(equalTo: scoreView.bottomAnchor, constant: UIScreen.main.bounds.height * 0.012),
             
             startButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             startButton.widthAnchor.constraint(equalToConstant: 306),

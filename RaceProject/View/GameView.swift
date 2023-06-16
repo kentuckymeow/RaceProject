@@ -35,6 +35,22 @@ final class GameView: UIView {
         return carImageView
     }()
     
+    private var scoreGameView: UIView = {
+        let scoreGameView = UIView()
+        scoreGameView.backgroundColor = UIColor(red: 0.792, green: 0.181, blue: 0.181, alpha: 1)
+        scoreGameView.layer.cornerRadius = 25
+        return scoreGameView
+    }()
+    
+    private var scoreGameLabel: UILabel = {
+        let scoreGameLabel = UILabel()
+        scoreGameLabel.text = "0"
+        scoreGameLabel.textAlignment = .center
+        scoreGameLabel.textColor = .white
+        scoreGameLabel.font = UIFont.boldSystemFont(ofSize: 23)
+        return scoreGameLabel
+    }()
+    
     var leftArrowButton: UIButton = {
         let leftArrowButton = UIButton(type: .system)
         leftArrowButton.setImage(UIImage(named: "arrowLeft"), for: .normal)
@@ -69,8 +85,10 @@ final class GameView: UIView {
         
         let numberOfRows = Int((screenHeight - stripeHeight) / (stripeHeight + verticalSpacing))
         
-        [horizontalStackView, carImageView ,leftArrowButton, rightArrowButton].forEach {addSubview($0)}
-        [carImageView ,leftArrowButton, rightArrowButton].forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
+        [horizontalStackView, carImageView ,leftArrowButton, rightArrowButton, scoreGameView].forEach {addSubview($0)}
+        [carImageView, leftArrowButton, rightArrowButton, scoreGameView, scoreGameLabel].forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
+        
+        scoreGameView.addSubview(scoreGameLabel)
         
         bringSubviewToFront(carImageView)
         
@@ -106,10 +124,18 @@ final class GameView: UIView {
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            carImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -143),
+            carImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height * -0.153),
             carImageView.widthAnchor.constraint(equalToConstant: 50),
             carImageView.heightAnchor.constraint(equalToConstant: 103),
             carImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            scoreGameView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height * -0.055),
+            scoreGameView.widthAnchor.constraint(equalToConstant: 140),
+            scoreGameView.heightAnchor.constraint(equalToConstant: 60),
+            scoreGameView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            scoreGameLabel.centerXAnchor.constraint(equalTo: scoreGameView.centerXAnchor),
+            scoreGameLabel.centerYAnchor.constraint(equalTo: scoreGameView.centerYAnchor),
             
             leftArrowButton.bottomAnchor.constraint(equalTo: bottomAnchor,constant:  UIScreen.main.bounds.height * -0.035),
             leftArrowButton.widthAnchor.constraint(equalToConstant: 90),
