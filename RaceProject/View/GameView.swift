@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum Direction {
+    case left
+    case right
+}
+
 final class GameView: UIView {
     
     let screenWidth = UIScreen.main.bounds.width
@@ -98,6 +103,26 @@ final class GameView: UIView {
         }
     }
     
+    func moveCar(direction: Direction) {
+        var newX: CGFloat
+        switch direction {
+        case .right:
+            newX = carImageView.frame.origin.x + (horizontalSpacing * 1.15)
+            if newX > screenWidth - sidePadding - carImageView.frame.width {
+                return
+            }
+        case .left:
+            newX = carImageView.frame.origin.x - (horizontalSpacing * 1.15)
+            if newX < sidePadding {
+                return
+            }
+        }
+        
+        UIView.animate(withDuration: 0.2) {
+            self.carImageView.frame.origin.x = newX
+        }
+    }
+
     private func createVerticalStackView(numberOfRows: Int) -> UIStackView {
         let verticalStackView = UIStackView()
         verticalStackView.axis = .vertical

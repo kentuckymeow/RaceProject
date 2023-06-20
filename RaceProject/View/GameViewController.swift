@@ -14,7 +14,7 @@ class GameViewController: UIViewController {
     }()
     
     lazy var presenter: GamePresenter = {
-        return GamePresenter(gameView: gameView)
+        return GamePresenter(viewController: self)
     }()
     
     var musicManager: MusicManager = {
@@ -29,13 +29,12 @@ class GameViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        animateStripeDrop()
+        animateStripeDrop(duration: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameView.leftArrowButton.addTarget(self, action: #selector(leftArrowButtonTapped), for: .touchUpInside)
-        gameView.rightArrowButton.addTarget(self, action: #selector(rightArrowButtonTapped), for: .touchUpInside)
+        setUpTargets()
     }
     
     @objc  func leftArrowButtonTapped() {
@@ -45,12 +44,17 @@ class GameViewController: UIViewController {
     @objc  func rightArrowButtonTapped() {
         presenter.rightArrowButtonTapped()
     }
+    
+    private func setUpTargets() {
+        gameView.leftArrowButton.addTarget(self, action: #selector(leftArrowButtonTapped), for: .touchUpInside)
+        gameView.rightArrowButton.addTarget(self, action: #selector(rightArrowButtonTapped), for: .touchUpInside)
+    }
 
-    func animateStripeDrop() {
+    func animateStripeDrop(duration: Double?) {
         let screenHeight = gameView.screenHeight
         let stripeHeight = gameView.stripeHeight
         let verticalSpacing = gameView.verticalSpacing * 0.5
-        let totalAnimationDuration = Double(screenHeight / stripeHeight) * 0.05
+        let totalAnimationDuration = duration ?? Double(screenHeight / stripeHeight) * 0.05
         
         UIView.animate(withDuration: totalAnimationDuration, delay: 0, options: [.curveLinear, . repeat], animations: {
             self.gameView.horizontalStackView.frame.origin = CGPoint(x: self.gameView.sidePadding, y: verticalSpacing)
