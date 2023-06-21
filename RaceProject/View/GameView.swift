@@ -95,7 +95,7 @@ final class GameView: UIView {
     private func configure() {
         setUpViews()
         setUpConstraints()
-        startFallingAnimation()
+        startFallingTruckAnimation()
     }
     
     private func setUpViews() {
@@ -116,7 +116,7 @@ final class GameView: UIView {
         }
     }
     
-    func startFallingAnimation() {
+    func startFallingTruckAnimation() {
         let center = screenWidth/2 - truckImageView.frame.width / 2
         let left = center - horizontalSpacing * 1.15
         let right = center + horizontalSpacing * 1.15
