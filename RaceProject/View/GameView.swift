@@ -130,7 +130,7 @@ final class GameView: UIView {
         }, completion: { _ in
             self.truckImageView.frame = CGRect(x: randomPosition, y: -self.screenHeight, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
 
-            self.startFallingAnimation()
+            self.startFallingTruckAnimation()
         })
     }
    
