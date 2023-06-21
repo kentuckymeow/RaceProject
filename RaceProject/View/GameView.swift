@@ -40,6 +40,18 @@ final class GameView: UIView {
         return carImageView
     }()
     
+    lazy var truckImageView: UIImageView = {
+        let truckImage = UIImage(named: "truck")
+        let truckImageView = UIImageView(image: truckImage)
+        truckImageView.contentMode = .scaleAspectFill
+        let center = screenWidth/2 - truckImageView.frame.width / 2
+        let left = center - horizontalSpacing * 1.15
+        let right = center + horizontalSpacing * 1.15
+        let randomX = CGFloat.random(in: left...right)
+        truckImageView.frame = CGRect(x: randomX, y: -screenHeight, width: 120, height: 170)
+        return truckImageView
+    }()
+    
     private var scoreGameView: UIView = {
         let scoreGameView = UIView()
         scoreGameView.backgroundColor = UIColor(red: 0.792, green: 0.181, blue: 0.181, alpha: 1)
@@ -83,6 +95,7 @@ final class GameView: UIView {
     private func configure() {
         setUpViews()
         setUpConstraints()
+        startFallingAnimation()
     }
     
     private func setUpViews() {
@@ -90,7 +103,7 @@ final class GameView: UIView {
         
         let numberOfRows = Int((screenHeight - stripeHeight) / (stripeHeight + verticalSpacing))
         
-        [horizontalStackView, carImageView ,leftArrowButton, rightArrowButton, scoreGameView].forEach {addSubview($0)}
+        [horizontalStackView, truckImageView, carImageView ,leftArrowButton, rightArrowButton, scoreGameView].forEach {addSubview($0)}
         [carImageView, leftArrowButton, rightArrowButton, scoreGameView, scoreGameLabel].forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
         
         scoreGameView.addSubview(scoreGameLabel)
@@ -103,6 +116,24 @@ final class GameView: UIView {
         }
     }
     
+    func startFallingAnimation() {
+        let center = screenWidth/2 - truckImageView.frame.width / 2
+        let left = center - horizontalSpacing * 1.15
+        let right = center + horizontalSpacing * 1.15
+        let positions = [left, center, right]
+        let randomIndex = Int.random(in: 0..<positions.count)
+
+        let randomPosition = positions[randomIndex]
+
+        UIView.animate(withDuration: 3.0, delay: 0.0, options: .curveLinear, animations: {
+            self.truckImageView.frame = CGRect(x: self.truckImageView.frame.origin.x, y: self.screenHeight, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
+        }, completion: { _ in
+            self.truckImageView.frame = CGRect(x: randomPosition, y: -self.screenHeight, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
+
+            self.startFallingAnimation()
+        })
+    }
+   
     func moveCar(direction: Direction) {
         var newX: CGFloat
         switch direction {
