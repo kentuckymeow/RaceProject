@@ -13,7 +13,7 @@ class GameViewController: UIViewController {
         return GameView()
     }()
     
-    lazy var presenter: GamePresenter = {
+    lazy var presenter: GamePresenterProtocol = {
         return GamePresenter(viewController: self)
     }()
     

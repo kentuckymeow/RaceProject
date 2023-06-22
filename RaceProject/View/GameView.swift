@@ -44,9 +44,10 @@ final class GameView: UIView {
         let truckImage = UIImage(named: "truck")
         let truckImageView = UIImageView(image: truckImage)
         truckImageView.contentMode = .scaleAspectFill
-        let center = screenWidth/2 - truckImageView.frame.width / 2
-        let left = center - horizontalSpacing * 1.15
-        let right = center + horizontalSpacing * 1.15
+        let positionsTruple = getPositions(truckImageView)
+        let center = positionsTruple.center
+        let left = positionsTruple.left
+        let right = positionsTruple.right
         let randomX = CGFloat.random(in: left...right)
         truckImageView.frame = CGRect(x: randomX, y: -screenHeight, width: 120, height: 170)
         return truckImageView
@@ -117,10 +118,8 @@ final class GameView: UIView {
     }
     
     func startFallingTruckAnimation() {
-        let center = screenWidth/2 - truckImageView.frame.width / 2
-        let left = center - horizontalSpacing * 1.15
-        let right = center + horizontalSpacing * 1.15
-        let positions = [left, center, right]
+        let positionsTruple = getPositions(nil)
+        let positions = [positionsTruple.left, positionsTruple.center, positionsTruple.right]
         let randomIndex = Int.random(in: 0..<positions.count)
 
         let randomPosition = positions[randomIndex]
@@ -203,5 +202,13 @@ final class GameView: UIView {
             rightArrowButton.heightAnchor.constraint(equalToConstant: 90),
             rightArrowButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -25)
         ])
+    }
+    
+    private func getPositions(_ imageView: UIImageView?) -> (center: Double, left: Double, right: Double) {
+        let imageView = imageView ?? truckImageView
+        let center = screenWidth/2 - imageView.frame.width / 2
+        let left = center - horizontalSpacing * 1.15
+        let right = center + horizontalSpacing * 1.15
+        return (center, left, right)
     }
 }
