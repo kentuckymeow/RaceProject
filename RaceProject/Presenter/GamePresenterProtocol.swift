@@ -10,5 +10,6 @@ import Foundation
 protocol GamePresenterProtocol {
     func leftArrowButtonTapped() 
     func rightArrowButtonTapped()
+    func startTruck()
 }
 

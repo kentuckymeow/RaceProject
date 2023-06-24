@@ -32,6 +32,10 @@ class GameViewController: UIViewController {
         animateStripeDrop(duration: nil)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        presenter.startTruck()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTargets()

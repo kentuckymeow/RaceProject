@@ -24,4 +24,8 @@ class GamePresenter: GamePresenterProtocol {
     func rightArrowButtonTapped() {
         viewController?.gameView.moveCar(direction: .right)
     }
+    
+    func startTruck() {
+        viewController?.gameView.startFallingTruckAnimation()
+    }
 }

@@ -96,7 +96,6 @@ final class GameView: UIView {
     private func configure() {
         setUpViews()
         setUpConstraints()
-        startFallingTruckAnimation()
     }
     
     private func setUpViews() {
@@ -111,6 +110,7 @@ final class GameView: UIView {
         
         bringSubviewToFront(carImageView)
         
+        
         for _ in 0..<4 {
             let verticalStackView = createVerticalStackView(numberOfRows: numberOfRows)
             horizontalStackView.addArrangedSubview(verticalStackView)
@@ -118,21 +118,33 @@ final class GameView: UIView {
     }
     
     func startFallingTruckAnimation() {
-        let positionsTruple = getPositions(nil)
-        let positions = [positionsTruple.left, positionsTruple.center, positionsTruple.right]
+        let positionsTuple = getPositions(truckImageView)
+        let positions = [positionsTuple.left, positionsTuple.center, positionsTuple.right]
         let randomIndex = Int.random(in: 0..<positions.count)
-
         let randomPosition = positions[randomIndex]
 
         UIView.animate(withDuration: 3.0, delay: 0.0, options: .curveLinear, animations: {
-            self.truckImageView.frame = CGRect(x: self.truckImageView.frame.origin.x, y: self.screenHeight, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
+            self.truckImageView.frame = CGRect(x: self.truckImageView.frame.origin.x, y: self.screenHeight/1.4, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
         }, completion: { _ in
-            self.truckImageView.frame = CGRect(x: randomPosition, y: -self.screenHeight, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
+            if self.carImageView.frame.intersects(self.truckImageView.frame) {
+                print("Truck and car intersected")
+            } else {
+                if let score = Int(self.scoreGameLabel.text ?? "0") {
+                    self.scoreGameLabel.text = String(score + 1)
+                }
+            }
 
-            self.startFallingTruckAnimation()
+            UIView.animate(withDuration: 3.0, delay: 0.0, options: .curveLinear, animations: {
+                self.truckImageView.frame = CGRect(x: self.truckImageView.frame.origin.x, y: self.screenHeight * 2, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
+            }, completion: { _ in
+                self.truckImageView.frame = CGRect(x: randomPosition, y: -self.screenHeight, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
+                self.startFallingTruckAnimation()
+            })
         })
     }
-   
+
+
+
     func moveCar(direction: Direction) {
         var newX: CGFloat
         switch direction {
@@ -204,8 +216,7 @@ final class GameView: UIView {
         ])
     }
     
-    private func getPositions(_ imageView: UIImageView?) -> (center: Double, left: Double, right: Double) {
-        let imageView = imageView ?? truckImageView
+    private func getPositions(_ imageView: UIImageView) -> (center: CGFloat, left: CGFloat, right: CGFloat) {
         let center = screenWidth/2 - imageView.frame.width / 2
         let left = center - horizontalSpacing * 1.15
         let right = center + horizontalSpacing * 1.15
