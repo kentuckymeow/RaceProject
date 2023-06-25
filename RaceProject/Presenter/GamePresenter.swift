@@ -35,7 +35,7 @@ class GamePresenter: GamePresenterProtocol {
                 if let scoreText = self.viewController?.gameView.scoreGameLabel.text,
                    let score = Int(scoreText) {
                     self.viewController?.gameView.scoreGameLabel.text = String(score + 1)
-                    self.viewController?.gameView.animationDuration *= 0.9
+                    self.viewController?.gameView.animationDuration *= 0.95
                 }
             }
         }
