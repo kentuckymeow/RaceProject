@@ -26,6 +26,18 @@ class GamePresenter: GamePresenterProtocol {
     }
     
     func startTruck() {
-        viewController?.gameView.startFallingTruckAnimation()
+        viewController?.gameView.startFallingTruckAnimation {
+            if let carFrame = self.viewController?.gameView.carImageView.frame,
+               let truckFrame = self.viewController?.gameView.truckImageView.frame,
+               carFrame.intersects(truckFrame) {
+                print("Truck and car intersected")
+            } else {
+                if let scoreText = self.viewController?.gameView.scoreGameLabel.text,
+                   let score = Int(scoreText) {
+                    self.viewController?.gameView.scoreGameLabel.text = String(score + 1)
+                    self.viewController?.gameView.animationDuration /= 0.05
+                }
+            }
+        }
     }
 }

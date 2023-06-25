@@ -16,6 +16,7 @@ final class GameView: UIView {
     
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
+    var animationDuration: Double = 3.0
     
     private var stripeWidth: CGFloat { screenWidth * 0.03 }
     var stripeHeight: CGFloat { screenHeight * 0.03 }
@@ -60,7 +61,7 @@ final class GameView: UIView {
         return scoreGameView
     }()
     
-    private var scoreGameLabel: UILabel = {
+    var scoreGameLabel: UILabel = {
         let scoreGameLabel = UILabel()
         scoreGameLabel.text = "0"
         scoreGameLabel.textAlignment = .center
@@ -117,33 +118,26 @@ final class GameView: UIView {
         }
     }
     
-    func startFallingTruckAnimation() {
+    func startFallingTruckAnimation(completion: @escaping () -> Void) {
         let positionsTuple = getPositions(truckImageView)
         let positions = [positionsTuple.left, positionsTuple.center, positionsTuple.right]
         let randomIndex = Int.random(in: 0..<positions.count)
         let randomPosition = positions[randomIndex]
 
-        UIView.animate(withDuration: 3.0, delay: 0.0, options: .curveLinear, animations: {
+        UIView.animate(withDuration: animationDuration, delay: 0.0, options: .curveLinear, animations: {
             self.truckImageView.frame = CGRect(x: self.truckImageView.frame.origin.x, y: self.screenHeight/1.4, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
         }, completion: { _ in
-            if self.carImageView.frame.intersects(self.truckImageView.frame) {
-                print("Truck and car intersected")
-            } else {
-                if let score = Int(self.scoreGameLabel.text ?? "0") {
-                    self.scoreGameLabel.text = String(score + 1)
-                }
-            }
+           
+            completion()
 
-            UIView.animate(withDuration: 3.0, delay: 0.0, options: .curveLinear, animations: {
+            UIView.animate(withDuration: self.animationDuration, delay: 0.0, options: .curveLinear, animations: {
                 self.truckImageView.frame = CGRect(x: self.truckImageView.frame.origin.x, y: self.screenHeight * 2, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
             }, completion: { _ in
                 self.truckImageView.frame = CGRect(x: randomPosition, y: -self.screenHeight, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
-                self.startFallingTruckAnimation()
+                self.startFallingTruckAnimation(completion: completion)
             })
         })
     }
-
-
 
     func moveCar(direction: Direction) {
         var newX: CGFloat
