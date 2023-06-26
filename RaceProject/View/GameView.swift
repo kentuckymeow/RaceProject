@@ -38,6 +38,7 @@ final class GameView: UIView {
         let carImage = UIImage(named: "car")
         let carImageView = UIImageView(image: carImage)
         carImageView.contentMode = .scaleAspectFill
+        carImageView.frame = CGRect(x: (UIScreen.main.bounds.width * 0.5) - 25, y: UIScreen.main.bounds.height * 0.7, width: 50, height: 103)
         return carImageView
     }()
     
@@ -105,7 +106,7 @@ final class GameView: UIView {
         let numberOfRows = Int((screenHeight - stripeHeight) / (stripeHeight + verticalSpacing))
         
         [horizontalStackView, truckImageView, carImageView ,leftArrowButton, rightArrowButton, scoreGameView].forEach {addSubview($0)}
-        [carImageView, leftArrowButton, rightArrowButton, scoreGameView, scoreGameLabel].forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
+        [leftArrowButton, rightArrowButton, scoreGameView, scoreGameLabel].forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
         
         scoreGameView.addSubview(scoreGameLabel)
         
@@ -185,10 +186,10 @@ final class GameView: UIView {
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            carImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height * -0.153),
-            carImageView.widthAnchor.constraint(equalToConstant: 50),
-            carImageView.heightAnchor.constraint(equalToConstant: 103),
-            carImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+//            carImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height * -0.153),
+//            carImageView.widthAnchor.constraint(equalToConstant: 50),
+//            carImageView.heightAnchor.constraint(equalToConstant: 103),
+//            carImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             scoreGameView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height * -0.055),
             scoreGameView.widthAnchor.constraint(equalToConstant: 140),

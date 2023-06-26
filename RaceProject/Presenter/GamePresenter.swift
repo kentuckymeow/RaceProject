@@ -12,6 +12,8 @@ class GamePresenter: GamePresenterProtocol {
     
     weak var viewController: GameViewController?
     
+    private var score: Int = 0
+    
     init(viewController: GameViewController) {
         self.viewController = viewController
     }
@@ -26,18 +28,18 @@ class GamePresenter: GamePresenterProtocol {
     }
     
     func startTruck() {
-        viewController?.gameView.startFallingTruckAnimation {
-            if let carFrame = self.viewController?.gameView.carImageView.frame,
-               let truckFrame = self.viewController?.gameView.truckImageView.frame,
-               carFrame.intersects(truckFrame) {
-                print("Truck and car intersected")
-            } else {
-                if let scoreText = self.viewController?.gameView.scoreGameLabel.text,
-                   let score = Int(scoreText) {
-                    self.viewController?.gameView.scoreGameLabel.text = String(score + 1)
-                    self.viewController?.gameView.animationDuration *= 0.95
+        viewController?.gameView.startFallingTruckAnimation { [weak self] in
+            if let carFrame = self?.viewController?.gameView.carImageView.frame,
+               let truckFrame = self?.viewController?.gameView.truckImageView.frame {
+                if carFrame.intersects(truckFrame) {
+                    print("Truck and car intersected")
+                } else {
+                    self?.score += 1
+                    self?.viewController?.gameView.scoreGameLabel.text = String(self?.score ?? 0)
+                    self?.viewController?.gameView.animationDuration *= 0.95
                 }
             }
         }
     }
 }
+
