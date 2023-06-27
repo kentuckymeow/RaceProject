@@ -64,11 +64,7 @@ class GameViewController: UIViewController {
         
         UIView.animate(withDuration: totalAnimationDuration, delay: 0, options: [.curveLinear, .repeat], animations: {
             self.gameView.horizontalStackView.frame.origin = CGPoint(x: self.gameView.sidePadding, y: verticalSpacing)
-        }, completion: { _ in
-            self.totalAnimationDuration /= 2
-            print("animation stop")
-            self.animateStripeDrop(duration: self.totalAnimationDuration)
-        })
+        }, completion: nil )
     }
 }
                        

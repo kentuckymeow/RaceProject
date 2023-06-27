@@ -10,16 +10,14 @@ import UIKit
 final class MainView: UIView {
     
     private var backgroundImageView: UIImageView = {
-        let backgroundImage = UIImage(named: "background")
-        let backgroundImageView = UIImageView(image: backgroundImage)
+        let backgroundImageView = UIImageView(image: UIImage(named: "background"))
         backgroundImageView.contentMode = .scaleAspectFill
         backgroundImageView.frame = UIScreen.main.bounds
         return backgroundImageView
     }()
     
     private var logoImageView: UIImageView = {
-        let logoImage = UIImage(named: "logo")
-        let logoImageView = UIImageView(image: logoImage)
+        let logoImageView = UIImageView(image: UIImage(named: "logo"))
         logoImageView.contentMode = .scaleAspectFill
         return logoImageView
     }()

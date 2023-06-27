@@ -34,17 +34,33 @@ final class GameView: UIView {
         return horizontalStackView
     }()
     
+    var gameOverView: UIView = {
+        let gameOverView = UIView()
+        gameOverView.backgroundColor = .black
+        gameOverView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let gameOverImageView = UIImageView(image: UIImage(named: "gameOver"))
+        gameOverImageView.contentMode = .scaleAspectFit
+        gameOverImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        gameOverView.addSubview(gameOverImageView)
+        
+        NSLayoutConstraint.activate([
+            gameOverImageView.centerXAnchor.constraint(equalTo: gameOverView.centerXAnchor),
+            gameOverImageView.centerYAnchor.constraint(equalTo: gameOverView.centerYAnchor)
+        ])
+        return gameOverView
+    }()
+    
     var carImageView: UIImageView = {
-        let carImage = UIImage(named: "car")
-        let carImageView = UIImageView(image: carImage)
+        let carImageView = UIImageView(image: UIImage(named: "car"))
         carImageView.contentMode = .scaleAspectFill
         carImageView.frame = CGRect(x: (UIScreen.main.bounds.width * 0.5) - 25, y: UIScreen.main.bounds.height * 0.7, width: 50, height: 103)
         return carImageView
     }()
     
     lazy var truckImageView: UIImageView = {
-        let truckImage = UIImage(named: "truck")
-        let truckImageView = UIImageView(image: truckImage)
+        let truckImageView = UIImageView(image: UIImage(named: "truck"))
         truckImageView.contentMode = .scaleAspectFill
         let positionsTruple = getPositions(truckImageView)
         let center = positionsTruple.center
@@ -102,16 +118,17 @@ final class GameView: UIView {
     
     private func setUpViews() {
         backgroundColor = UIColor.lightGray
+        gameOverView.isHidden = true
+        gameOverView.alpha = 0
         
         let numberOfRows = Int((screenHeight - stripeHeight) / (stripeHeight + verticalSpacing))
         
-        [horizontalStackView, truckImageView, carImageView ,leftArrowButton, rightArrowButton, scoreGameView].forEach {addSubview($0)}
+        [horizontalStackView, gameOverView, truckImageView, carImageView ,leftArrowButton, rightArrowButton, scoreGameView].forEach {addSubview($0)}
         [leftArrowButton, rightArrowButton, scoreGameView, scoreGameLabel].forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
         
         scoreGameView.addSubview(scoreGameLabel)
         
-        bringSubviewToFront(carImageView)
-        
+        [carImageView,gameOverView].forEach {bringSubviewToFront($0)}
         
         for _ in 0..<4 {
             let verticalStackView = createVerticalStackView(numberOfRows: numberOfRows)
@@ -186,10 +203,10 @@ final class GameView: UIView {
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-//            carImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height * -0.153),
-//            carImageView.widthAnchor.constraint(equalToConstant: 50),
-//            carImageView.heightAnchor.constraint(equalToConstant: 103),
-//            carImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            gameOverView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            gameOverView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            gameOverView.topAnchor.constraint(equalTo: topAnchor),
+            gameOverView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             scoreGameView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height * -0.055),
             scoreGameView.widthAnchor.constraint(equalToConstant: 140),
