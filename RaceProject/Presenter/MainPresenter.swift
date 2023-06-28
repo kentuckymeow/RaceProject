@@ -9,9 +9,9 @@ import UIKit
 
 class MainPresenter: MainPresenterProtocol {
    
-    weak var viewController: UIViewController?
+    weak var viewController: MainViewController?
     
-    init(viewController: UIViewController) {
+    init(viewController: MainViewController) {
         self.viewController = viewController
     }
     
@@ -20,4 +20,10 @@ class MainPresenter: MainPresenterProtocol {
         navigationController.modalPresentationStyle = .fullScreen
         viewController?.present(navigationController,animated: true)
     }
+    
+    func updateBestScore() {
+        if let bestScore = UserDefaultsManager.shared.getValue(forKey: "BestScore") as? Int {
+            viewController?.mainView.scoreLabel.text = String(bestScore)
+           }
+       }
 }

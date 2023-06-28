@@ -25,6 +25,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mainView.startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        presenter.updateBestScore()
     }
     
     @objc func startButtonTapped() {

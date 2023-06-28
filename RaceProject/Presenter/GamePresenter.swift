@@ -13,9 +13,9 @@ class GamePresenter: GamePresenterProtocol {
     weak var viewController: GameViewController?
     
     private var score: Int = 0
-    let animationDuration = 0.2
-    let delayBeforeTransition = 3.0
-    let speedIncreaseFactor = 0.95
+    private let animationDuration = 0.2
+    private let delayBeforeTransition = 3.0
+    private let speedIncreaseFactor = 0.95
     
     init(viewController: GameViewController) {
         self.viewController = viewController
@@ -52,11 +52,19 @@ class GamePresenter: GamePresenterProtocol {
         print("Truck and car intersected")
         viewController?.gameView.gameOverView.alpha = 0.0
         viewController?.gameView.gameOverView.isHidden = false
-        
+
+        if let bestScore = UserDefaultsManager.shared.getValue(forKey: "BestScore") as? Int {
+            if score > bestScore {
+                UserDefaultsManager.shared.setValue(score, forKey: "BestScore")
+            }
+        } else {
+            UserDefaultsManager.shared.setValue(score, forKey: "BestScore")
+        }
+
         UIView.animate(withDuration: animationDuration) {
             self.viewController?.gameView.gameOverView.alpha = 1.0
         }
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + delayBeforeTransition) { [weak self] in
             self?.transitionToMainViewController()
         }

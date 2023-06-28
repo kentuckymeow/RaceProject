@@ -44,13 +44,13 @@ final class MainView: UIView {
         return bestScoreRect
     }()
 
-    private lazy var scoreLabel: UILabel = {
-        let score = UILabel(frame: scoreView.bounds)
-        score.text = "0"
-        score.textAlignment = .center
-        score.textColor = .white
-        score.font = UIFont.boldSystemFont(ofSize: 40)
-        return score
+    lazy var scoreLabel: UILabel = {
+        let scoreLabel = UILabel(frame: scoreView.bounds)
+        scoreLabel.text = "0"
+        scoreLabel.textAlignment = .center
+        scoreLabel.textColor = .white
+        scoreLabel.font = UIFont.boldSystemFont(ofSize: 40)
+        return scoreLabel
     }()
 
     private lazy var bestScoreLabel: UILabel = {

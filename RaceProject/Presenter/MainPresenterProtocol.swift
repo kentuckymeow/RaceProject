@@ -9,4 +9,5 @@ import Foundation
 
 protocol MainPresenterProtocol {
     func startButtonTapped()
+    func updateBestScore()
 }
