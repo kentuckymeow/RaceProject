@@ -62,9 +62,9 @@ class GameViewController: UIViewController {
         let verticalSpacing = gameView.verticalSpacing * 0.5
         totalAnimationDuration = duration ?? (Double(screenHeight / stripeHeight) * 0.05)
         
-        UIView.animate(withDuration: totalAnimationDuration, delay: 0, options: [.curveLinear, .repeat], animations: {
+        UIView.animate(withDuration: totalAnimationDuration, delay: 0, options: [.curveLinear, .repeat], animations: { [weak self] in
+            guard let self = self else { return }
             self.gameView.horizontalStackView.frame.origin = CGPoint(x: self.gameView.sidePadding, y: verticalSpacing)
         }, completion: nil )
     }
 }
-                       

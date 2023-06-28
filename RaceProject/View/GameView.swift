@@ -142,15 +142,17 @@ final class GameView: UIView {
         let randomIndex = Int.random(in: 0..<positions.count)
         let randomPosition = positions[randomIndex]
 
-        UIView.animate(withDuration: animationDuration, delay: 0.0, options: .curveLinear, animations: {
+        UIView.animate(withDuration: animationDuration, delay: 0.0, options: .curveLinear, animations: { [weak self] in
+            guard let self = self else { return }
             self.truckImageView.frame = CGRect(x: self.truckImageView.frame.origin.x, y: self.screenHeight/1.4, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
-        }, completion: { _ in
-           
+        }, completion: { [weak self] _ in
+            guard let self = self else { return }
             completion()
 
             UIView.animate(withDuration: self.animationDuration, delay: 0.0, options: .curveLinear, animations: {
                 self.truckImageView.frame = CGRect(x: self.truckImageView.frame.origin.x, y: self.screenHeight * 2, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
-            }, completion: { _ in
+            }, completion: { [weak self] _ in
+                guard let self = self else { return }
                 self.truckImageView.frame = CGRect(x: randomPosition, y: -self.screenHeight, width: self.truckImageView.frame.size.width, height: self.truckImageView.frame.size.height)
                 self.startFallingTruckAnimation(completion: completion)
             })
